@@ -1,0 +1,39 @@
+[project]
+name = "cloud-run-ai"
+version = "0.1.0"
+description = "Scaffold for deploying N8N and LangFlow to GCP Cloud Run and Cloud Functions using Terraform."
+authors = ["Cloud Run Team <team@example.com>"]
+requires-python = ">=3.11"
+readme = "README.md"
+dependencies = [
+    "google-cloud-run>=0.6.4",
+    "google-cloud-functions>=1.13.2",
+    "google-cloud-storage>=2.14.0",
+    "google-api-python-client>=2.120.0",
+    "click>=8.1.7"
+]
+
+[project.optional-dependencies]
+n8n = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0"
+]
+langflow = [
+    "langflow>=1.0.0",
+    "pydantic>=2.6.0",
+    "functions-framework>=3.5.0",
+    "requests>=2.32.0"
+]
+
+[tool.uv]
+dev-dependencies = [
+    "ruff>=0.3.5",
+    "pytest>=8.1.0"
+]
+
+[tool.uv.sources]
+cloud-run-ai = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

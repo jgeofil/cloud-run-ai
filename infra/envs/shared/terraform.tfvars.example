@@ -1,0 +1,21 @@
+project_id = "my-gcp-project"
+region     = "us-central1"
+
+service_accounts = [
+  {
+    account_id    = "n8n-runner"
+    display_name  = "N8N Cloud Run Service"
+    project_roles = [
+      "roles/run.admin",
+      "roles/iam.serviceAccountUser"
+    ]
+  },
+  {
+    account_id    = "langflow-runner"
+    display_name  = "LangFlow Cloud Run Service"
+    project_roles = [
+      "roles/run.admin",
+      "roles/iam.serviceAccountUser"
+    ]
+  }
+]
