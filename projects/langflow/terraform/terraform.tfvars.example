@@ -1,0 +1,20 @@
+project_id                = "my-gcp-project"
+region                    = "us-central1"
+environment               = "dev"
+cloud_run_image           = "us-central1-docker.pkg.dev/my-gcp-project/langflow/langflow:latest"
+cloud_run_service_account = "langflow-runner@my-gcp-project.iam.gserviceaccount.com"
+cloud_run_env = {
+  LANGFLOW_SUPERUSER = "admin@example.com"
+}
+cloud_run_cpu           = "2"
+cloud_run_memory        = "2Gi"
+cloud_run_min_instances = 1
+cloud_run_max_instances = 5
+invoker_members = [
+  "allUsers"
+]
+function_bucket       = "my-gcp-project-langflow-functions"
+function_entry_point  = "handle"
+function_environment = {
+  LANGFLOW_URL = "https://dev-langflow-xyz.a.run.app"
+}
