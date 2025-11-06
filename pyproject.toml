@@ -1,0 +1,45 @@
+[project]
+name = "cloud-run-ai"
+version = "0.1.0"
+description = "Infrastructure scaffolding for deploying N8N and LangFlow to Google Cloud Run and Cloud Functions"
+authors = ["Cloud Run AI Team <dev@example.com>"]
+requires-python = ">=3.10"
+dependencies = [
+    "google-cloud-build>=3.21.0",
+    "google-cloud-functions>=1.13.3",
+    "google-cloud-secret-manager>=2.17.0",
+    "google-cloud-storage>=2.14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.4.3",
+]
+
+[build-system]
+requires = ["hatchling>=1.18.0"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true
+python-preference = "only-system"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "UP",
+]
+ignore = [
+    "E203",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
