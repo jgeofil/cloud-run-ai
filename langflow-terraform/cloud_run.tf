@@ -9,8 +9,8 @@ resource "google_cloud_run_v2_service" "langflow_run" {
     timeout         = "300s" # Increased timeout for initial database migrations
 
     containers {
-      image   = "langflowai/langflow:latest"
-      
+      image = "langflowai/langflow:latest"
+
       ports {
         container_port = 7860
       }
@@ -31,7 +31,7 @@ resource "google_cloud_run_v2_service" "langflow_run" {
         name  = "LANGFLOW_PORT"
         value = "7860"
       }
-      
+
       env {
         name  = "LANGFLOW_AUTO_LOGIN"
         value = "false"

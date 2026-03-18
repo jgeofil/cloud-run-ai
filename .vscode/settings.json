@@ -1,4 +1,5 @@
 {
+	"python.languageServer": "None",
 	"djlint.showInstallError": false,
 	"postman.settings.dotenv-detection-notification-visibility": false,
 	"search.exclude": {
