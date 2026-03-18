@@ -1,4 +1,7 @@
 {
 	"djlint.showInstallError": false,
-	"postman.settings.dotenv-detection-notification-visibility": false
+	"postman.settings.dotenv-detection-notification-visibility": false,
+	"search.exclude": {
+		"**/node_modules": false
+	}
 }
