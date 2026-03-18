@@ -207,7 +207,6 @@ marimo/_lsp/
 __marimo__/
 package-lock.json
 node_modules/
-.gitignore
 .terraform/
 **/.terraform/
 *.lock.hcl
