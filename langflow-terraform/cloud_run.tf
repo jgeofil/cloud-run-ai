@@ -6,7 +6,7 @@ resource "google_cloud_run_v2_service" "langflow_run" {
 
   template {
     service_account = google_service_account.langflow_sa.email
-    timeout         = "300s" # Increased timeout for initial database migrations
+    timeout         = "300s"
 
     containers {
       image = "langflowai/langflow:latest"
@@ -18,7 +18,7 @@ resource "google_cloud_run_v2_service" "langflow_run" {
       resources {
         limits = {
           cpu    = "1"
-          memory = "2Gi" # Langflow requires significant RAM to start
+          memory = "2Gi"
         }
       }
 
@@ -42,11 +42,15 @@ resource "google_cloud_run_v2_service" "langflow_run" {
         value = var.langflow_admin_user
       }
 
-      # SQLAlchemy Connection String using Unix Socket for Cloud SQL Auth Proxy
-      # Format: postgresql+psycopg2://user:password@/dbname?host=/cloudsql/PROJECT:REGION:INSTANCE
+      # Use embedded SQLite stored on the GCS-backed persistent volume
       env {
         name  = "LANGFLOW_DATABASE_URL"
-        value = "postgresql+psycopg2://${google_sql_user.langflow_user.name}:${random_password.langflow_db_password.result}@/${google_sql_database.langflow_db.name}?host=/cloudsql/${var.project_id}:${var.region}:${data.google_sql_database_instance.n8n_db_instance.name}"
+        value = "sqlite:////app/data/langflow.db"
+      }
+
+      env {
+        name  = "LANGFLOW_CONFIG_DIR"
+        value = "/app/data"
       }
 
       env {
@@ -63,18 +67,26 @@ resource "google_cloud_run_v2_service" "langflow_run" {
           }
         }
       }
+
+      # Mount the GCS bucket at /app/data for persistent SQLite storage
+      volume_mounts {
+        name       = "langflow-data"
+        mount_path = "/app/data"
+      }
     }
 
-    # Connect the Cloud SQL instance using Cloud Run's native integration
+    # GCS volume for persistent SQLite storage
     volumes {
-      name = "cloudsql"
-      cloud_sql_instance {
-        instances = [data.google_sql_database_instance.n8n_db_instance.connection_name]
+      name = "langflow-data"
+      gcs {
+        bucket    = google_storage_bucket.langflow_data.name
+        read_only = false
       }
     }
 
     scaling {
-      max_instance_count = 10
+      # SQLite supports only one writer at a time — keep to 1 instance
+      max_instance_count = 1
     }
   }
 

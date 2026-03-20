@@ -3,7 +3,13 @@ output "langflow_url" {
   value       = google_cloud_run_v2_service.langflow_run.uri
 }
 
-output "langflow_db_connection_name" {
-  description = "The connection name of the Cloud SQL instance"
-  value       = data.google_sql_database_instance.n8n_db_instance.connection_name
+output "langflow_admin_password" {
+  description = "The admin password for Langflow"
+  value       = random_password.langflow_admin_password.result
+  sensitive   = true
+}
+
+output "langflow_admin_username" {
+  description = "The admin username for Langflow"
+  value       = "admin"
 }
