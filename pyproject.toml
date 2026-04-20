@@ -1,0 +1,56 @@
+[project]
+name = "cloud-run-ai"
+version = "0.1.0"
+description = "Scaffold for deploying N8N and Lang Flow to GCP using Terraform"
+requires-python = ">=3.11"
+readme = "README.md"
+authors = [
+  { name = "Cloud Run AI Team", email = "devnull@example.com" }
+]
+dependencies = [
+  "google-api-python-client>=2.127.0",
+  "google-cloud-functions>=1.13.4",
+  "google-cloud-run>=0.6.4",
+  "google-cloud-secret-manager>=2.18.2",
+  "python-dotenv>=1.0.1",
+  "rich>=13.7.1"
+]
+
+[project.optional-dependencies]
+dev = [
+  "ruff>=0.5.0",
+  "pre-commit>=3.7.1"
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+development-dependencies = ["ruff>=0.5.0", "pre-commit>=3.7.1"]
+
+[tool.ruff]
+line-length = 100
+src = ["scripts"]
+exclude = [
+  ".git",
+  "__pycache__",
+  "build",
+  "dist"
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "Q"]
+ignore = ["E203", "E266", "E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/__init__.py" = ["F401"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
+
+[tool.setuptools.packages.find]
+where = ["scripts"]
