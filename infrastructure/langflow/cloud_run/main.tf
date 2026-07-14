@@ -42,12 +42,13 @@ resource "google_cloud_run_v2_service" "service" {
     service_account = var.service_account_email != "" ? var.service_account_email : google_service_account.workload.email
     containers {
       image = var.image
-      env = [
-        for key, value in var.environment_variables : {
-          name  = key
-          value = value
+      dynamic "env" {
+        for_each = var.environment_variables
+        content {
+          name  = env.key
+          value = env.value
         }
-      ]
+      }
       ports {
         name          = "http1"
         container_port = var.container_port
