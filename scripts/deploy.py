@@ -23,7 +23,7 @@ def cli() -> None:
 
 
 def _serialize_config(config: DeploymentConfig | FunctionConfig) -> str:
-    payload = json.dumps(config.__dict__, default=str, indent=2, sort_keys=True)
+    payload = json.dumps({f.name: getattr(config, f.name) for f in config.__dataclass_fields__.values()}, default=str, indent=2, sort_keys=True)
     return payload
 
 
