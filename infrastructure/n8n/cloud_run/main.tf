@@ -50,7 +50,6 @@ resource "google_cloud_run_v2_service" "service" {
           value = env.value
         }
       }
-      ]
       ports {
         name        = "http1"
         container_port = var.container_port
